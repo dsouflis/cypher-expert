@@ -1,20 +1,15 @@
-import {strict} from 'assert';
 import { input, confirm  } from '@inquirer/prompts';
 import {OpenAI} from 'openai';
-import {ChatCompletionUserMessageParam, ChatCompletionAssistantMessageParam} from "openai/resources";
 import {
-  Condition,
-  evalVariablesInToken,
-  GenericCondition,
-  getLocationsOfVariablesInConditions,
-  LocationsOfVariablesInConditions,
-  ProductionNode,
+  ChatCompletionMessageParam,
+  ChatCompletionUserMessageParam,
+  ChatCompletionAssistantMessageParam
+} from "openai/resources";
+import {
   Rete,
-  Token, WME
+  WME
 } from 'rete-next/index';
 import {ParseError, parseRete, ParseSuccess} from 'rete-next/productions0';
-import {ChatCompletionMessageParam} from "openai/src/resources/chat/completions";
-import {expect} from "chai";
 
 const openai = new OpenAI();
 
