@@ -1,0 +1,11 @@
+@startuml
+[*] --> Inquired: Ask user.
+Inquired: User question
+Inquired --> Examined
+Examined: Chat response
+Examined --> Examined: Clarifications\nneeded.\nAccumulate\ncontext.\nAsk user.
+Examined --> Ready: Query ready
+Ready: Machine readable query
+Ready --> Inquired: Run query\nif instructed.\nDelete context.\nAsk user.
+Ready --> Examined: User is\nnot satisfied.
+@enduml
