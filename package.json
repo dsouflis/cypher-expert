@@ -1,7 +1,7 @@
 {
   "name": "cypherexpert",
   "version": "1.0.0",
-  "description": "",
+  "description": "Implementation of a Task-Oriented Dialog system with ChatGPT: a Cypher expert that can help the user of a knowledge-based system query it.",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
