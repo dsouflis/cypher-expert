@@ -83,7 +83,7 @@ the knowledge base. If you understand what the user wants, respond with the Cyph
 If you don't, ask for clarifications.
 
 The schema of the knowledge base is:
-Node Labels: Person. Relation Labels: parent_of.
+Node Labels: Person. Relation Labels: parent_of, mother_of, father_of. Node properties: name.
 `;
 
 const triplesString = `1. Adam,father,Cain
@@ -125,13 +125,24 @@ for (const triplesEntry of triplesEntries) {
   const wme = new WME(id, 'parent_of', val);
   rete.addWME(wme);
   console.log('Added', wme.toString());
+  const wme2 = new WME(id, attr + '_of', val);
+  rete.addWME(wme2);
+  console.log('Added', wme2.toString());
   let add = rete.add(id, 'is-a', 'Person');
   if(add) {
     console.log('Added', add.toString());
   }
-  let add2 = rete.add(val, 'is-a', 'Person');
+  let add2 = rete.add(id, 'name', id);
   if(add2) {
     console.log('Added', add2.toString());
+  }
+  let add3 = rete.add(val, 'is-a', 'Person');
+  if(add3) {
+    console.log('Added', add3.toString());
+  }
+  let add4 = rete.add(val, 'name', val);
+  if(add4) {
+    console.log('Added', add4.toString());
   }
 }
 
