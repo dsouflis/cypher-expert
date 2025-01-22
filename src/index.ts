@@ -164,15 +164,27 @@ function cypherExtractor(s: string): string | null {
     }
   }
   cypher = cypher?.trim();
-  return cypher === ''? null : cypher ;
+  if (cypher === '') {
+    return null;
+  } else {
+    if(cypher[cypher.length - 1] === ';') cypher = cypher.substring(0, cypher.length - 2);
+    return cypher;
+  }
 }
 
 function parseAndRunCypher(input: string) {
   const reteParse = parseRete(input);
   if('specs' in reteParse) {
     for (const {lhs, variables} of reteParse.specs) {
+      console.log(`Running: (${lhs.map(c => c.toString()).join(' ')}) -> ${(variables as string[]).map(v => '<' + v + '>').join(', ')})`);
       const stringToStringMaps = rete.query(lhs, variables!);
-      console.log(stringToStringMaps);
+      for (let i = 0; i < stringToStringMaps.length; i++){
+        const stringToStringMap = stringToStringMaps[i];
+        let entries = Object.entries(stringToStringMap);
+        for (const [key, value] of entries) {
+          console.log(`${i}||${key}:${value}`);
+        }
+      }
     }
   } else {
     let parseError = reteParse as ParseError;
@@ -182,11 +194,16 @@ function parseAndRunCypher(input: string) {
 
 async function run() {
   console.log('Welcome to the experimental ChatGPT-Powered Knowledge Base');
+  console.log('Use "quit" or "bye" to exit, "clear" to start over');
   let contextLength = 0;
   do {
     try {
       const answer = await input({message: '>'});
       if (answer.toLowerCase() === 'bye' || answer.toLowerCase() === 'exit') break;
+      if (answer.toLowerCase() === 'clear') {
+        contextLength = 0;
+        continue;
+      }
       let response = await getOpenAiResponse(demoSystemPrompt, answer, contextLength);
       // console.log('Response', response);
       console.log(response.content);
@@ -195,12 +212,10 @@ async function run() {
         // console.log('Cypher', cypher);
         let b = await confirm({message: 'Run?'});
         if (b) {
-          contextLength = 0;
           parseAndRunCypher(cypher);
         }
-      } else {
-        contextLength++;
       }
+      contextLength++;
     } catch (e) {
       console.error(e);
     }
