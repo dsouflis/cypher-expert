@@ -194,12 +194,12 @@ function parseAndRunCypher(input: string) {
 
 async function run() {
   console.log('Welcome to the experimental ChatGPT-Powered Knowledge Base');
-  console.log('Use "quit" or "bye" to exit, "clear" to start over');
+  console.log('Use "quit", "exit" or "bye" to exit, "clear" to start over');
   let contextLength = 0;
   do {
     try {
       const answer = await input({message: '>'});
-      if (answer.toLowerCase() === 'bye' || answer.toLowerCase() === 'exit') break;
+      if (answer.toLowerCase() === 'bye' || answer.toLowerCase() === 'exit' || answer.toLowerCase() === 'quit') break;
       if (answer.toLowerCase() === 'clear') {
         contextLength = 0;
         continue;
